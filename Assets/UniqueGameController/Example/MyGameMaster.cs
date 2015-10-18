@@ -1,15 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
+using HardGames.UniqueController;
 
-public class MyGameMaster : MonoBehaviour {
+public class MyGameMaster : UniqueGameController {
 
-	// Use this for initialization
-	void Start () {
-	
+	PlayController playController_;
+
+	protected override void Start ()
+	{
+		base.Start ();
+		Build();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+
+	void Build(){
+		playController_ = new PlayController();
+		playController_.Build();
+		UniqueGameController.Instance.AddGameBehaviour(playController_);
 	}
 }

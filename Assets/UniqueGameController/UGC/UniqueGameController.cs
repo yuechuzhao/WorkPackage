@@ -7,75 +7,92 @@ namespace HardGames.UniqueController {
 	// only one monobehaviour in game 
 	public class UniqueGameController : MonoBehaviour {
 
-		static List<IGameBehaviour> allBehaviours;
+		private static UniqueGameController instance_;
+		public static UniqueGameController Instance{
+			get {
+				return instance_;
+			}
+		}
+
+		private List<IGameBehaviour> allBehaviours;
 
 		// manually do this action
-		public static void AddGameBehaviour(IGameBehaviour g){
+		public void AddGameBehaviour(IGameBehaviour g){
 			if (!allBehaviours.Contains(g)){
 				g.Start();
 				allBehaviours.Add(g);
 			}
 		}
+
 		// manually do this action
-		public static void RemoveGameBehaviour(IGameBehaviour g){
+		public void RemoveGameBehaviour(IGameBehaviour g){
 			if (allBehaviours.Contains(g)){
 				g.DestroySelf();
 				allBehaviours.Remove(g);
 			}
 		}
 
+		public void Pause(){
+		}
+
+		public void Resume(){
+		}
+
 		void Awake(){
-			allBehaviours.Clear();
 			allBehaviours = new List<IGameBehaviour>();
+			if (instance_ != null){
+				Destroy(instance_.gameObject);
+			}
+			instance_ = this;
+			DontDestroyOnLoad(gameObject);
 		}
 		
 		protected virtual void Start(){
 		}
 		
-		void OnEnable(){
+		protected virtual void OnEnable(){
 		}
 		
-		void OnDisable(){
+		protected virtual void OnDisable(){
 		}
 
-		void OnGUI(){
+		protected virtual void OnGUI(){
 			for (int i = 0; i < allBehaviours.Count; i++) {
 				allBehaviours[i].OnGUI();
 			}
 		}
 		
-		void Update(){
+		protected virtual void Update(){
 			for (int i = 0; i < allBehaviours.Count; i++) {
 				allBehaviours[i].Update();
 			}
 		}
 		
-		void LateUpdate(){
+		protected virtual void LateUpdate(){
 			for (int i = 0; i < allBehaviours.Count; i++) {
 				allBehaviours[i].LateUpdate();
 			}
 		}
 		
-		void FixedUpdate(){
+		protected virtual void FixedUpdate(){
 			for (int i = 0; i < allBehaviours.Count; i++) {
 				allBehaviours[i].FixedUpdate();
 			}
 		}
 		
-		void OnDestroy(){
+		protected virtual void OnDestroy(){
 			for (int i = 0; i < allBehaviours.Count; i++) {
 				allBehaviours[i].DestroySelf();
 			}
-			allBehaviours.Clear();
 		}
 		
-		void OnLevelWasLoaded(int level){
+		protected virtual void OnLevelWasLoaded(int level){
 		}
 
-		void OnLevelWasLoaded(string levelName){
+		protected virtual void OnLevelWasLoaded(string levelName){
 		}
 		
-		void OnApplicationFocus(bool flag){
+		protected virtual void OnApplicationFocus(bool flag){
 		}
 	}
 

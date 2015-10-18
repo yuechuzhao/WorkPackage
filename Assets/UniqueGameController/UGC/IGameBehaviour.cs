@@ -13,11 +13,10 @@ namespace HardGames.UniqueController {
 		void OnDestroy();
 
 		void OnGUI();
-
 		void DestroySelf();
 	}
 
-	public class GameBehaviour {
+	public class GameBehaviour: IGameBehaviour {
 
 		private bool active_;
 
@@ -32,7 +31,7 @@ namespace HardGames.UniqueController {
 		~GameBehaviour(){
 		}
 
-		public void DestorySelf(){
+		public void DestroySelf(){
 			if (Target != null){
 				GameObject.Destroy(Target);
 			} 
